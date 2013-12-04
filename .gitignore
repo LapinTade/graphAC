@@ -16,4 +16,7 @@
 *.exe
 *.out
 *.app
-./BIN/main
+
+./BIN/*
+./LIB/*
+./OBJ/*
