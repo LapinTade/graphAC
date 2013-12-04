@@ -1,0 +1,10 @@
+Auteur : 	MARIAUX Cédric
+			ROZE Nicolas
+
+
+Instructions d'execution : 
+	$> make
+	$> ./BIN/main
+
+Pendant l'execution du programme, pour le chargement entrer saveGraphe.txt comme 
+fichier de test.

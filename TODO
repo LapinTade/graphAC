@@ -1,0 +1,13 @@
+TO DO 
+
+Ajouter intitulé au typVoisin, 
+Géré le nom a la place du numVoisin (ajouter le code ASCII de 'A')
+
+Modifier les fonctions pour qu'elles intègrent ces nouveaux attributs
+
+Modifier les fonctions de parsing pour qu'elles prenne le template du nouveau projet
+
+Nb d'ouvriers = nb de sommets a la même hauteur (largeur du graphe)
+
+Ajouter par defaut un sommet de debut poids = 0 et un sommet de fin a la fin poids = 0 
+
