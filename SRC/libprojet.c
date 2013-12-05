@@ -37,14 +37,15 @@ Projet creation(int nbTachesMax){
 	projet->tacheProjet = malloc(sizeof(ListeTaches)*nbTachesMax);
 	projet->estOriente = 0;
 	
-	printf("Le projet est-il oriente ? (y=yes ||n=no) ");
+	/*printf("Le projet est-il oriente ? (y=yes ||n=no) ");
 	scanf("%c", &x);
 	if (x == 'y' ) {
 		projet->estOriente=1;
 	}
 	else {
 		projet->estOriente=0;
-	}
+	}*/
+	projet->estOriente=1;
 	projet->nbMaxTaches = nbTachesMax;
 
 	return projet;
@@ -76,7 +77,9 @@ Projet lecture(char *urlFichierSource){
 	char 	*tok;				/* Tokenisation de la ligne lu */
 	char 	*firstDelim;		/* Premier separateur */
 	char 	*secDelim;			/* Seconds separateurs */
+	int		firstLine;
 	
+	firstLine=1;
 	tmp = 1;
 	firstDelim=", \n -";
 	secDelim = "'";
@@ -85,16 +88,19 @@ Projet lecture(char *urlFichierSource){
 	fichier = fopen(urlFichierSource, "r");
 	projet = (Projet) malloc(sizeof(TypProjet));
 	projet->estOriente = 1;
-
+	ListeTaches element = (ListeTaches) malloc(sizeof(TypTache));  
 	if (fichier != NULL) {
 	//compter le nbLine
-		/*
 		while (fgets(line, 128, fichier) != NULL) {
 			nbLine++;
 		}
-		projet->nbMaxTaches=nbLine;
-		//*/
+		nbLine-=2;
+		projet=creation(nbLine);
+		printf("nbline : %d\n", nbLine);
+		nbLine=0;
+		printf("nbline : %d\n", nbLine);
 		while (fgets(line, 128, fichier) != NULL) {
+		printf("FLAAAAAAAAAAAAAg : %d\n", nbLine);
 			if (nbLine > 1) {
 				tok = NULL;
 				tmp = 1;
@@ -107,22 +113,39 @@ Projet lecture(char *urlFichierSource){
 				currentTacheProjet = (int) x-'A';
 				fprintf(stdout,"\n%d", currentTacheProjet);
 				//Creer une libListe par ligne
-				
+				int nom = currentTacheProjet; 
 				// Intitule;
 				tok = strtok(NULL, firstDelim);
 				tok=del(tok, '\'');
 				fprintf(stdout," %s", tok);
+				char * intitule = tok;
 
-				//*
+				
 				while (tok != NULL) {
 					tok = strtok(NULL, firstDelim);
 					if(tok != NULL) {
-						fprintf(stdout," %s", tok);
+						if(firstLine){
+							char x = tok[0];
+							int duree = (int) x;
+							element=ajouterTache(&element, nom, duree);
+							element->intitule=intitule;
+							firstLine = 0;
+						}else{
+							fprintf(stdout," %s", tok);
+							char x = tok[0];
+							int tache = (int) x-'A';
+							
+							element=ajouterTache(&element, tache, 0);
+						}
 					}
 				}
-				//*/
+				printf("***********");
+				afficher(element, stdout);
+				printf("***********");
+				projet->tacheProjet[nom]=element;
 			}
 			nbLine++;
+			printf("nbline : %d\n", nbLine);
 		}
 	}
 	projet->nbMaxTaches=nbLine;
