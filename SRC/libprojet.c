@@ -94,6 +94,8 @@ Projet lecture(char *urlFichierSource){
 		while (fgets(line, 128, fichier) != NULL) {
 			nbLine++;
 		}
+		close(fichier);
+		fichier = fopen(urlFichierSource, "r");
 		nbLine-=2;
 		projet=creation(nbLine);
 		printf("nbline : %d\n", nbLine);
@@ -102,24 +104,27 @@ Projet lecture(char *urlFichierSource){
 		while (fgets(line, 128, fichier) != NULL) {
 		printf("FLAAAAAAAAAAAAAg : %d\n", nbLine);
 			if (nbLine > 1) {
+				//fprintf(stdout,line);
 				tok = NULL;
 				tmp = 1;
-
-				//creationTacheProjet(projet, currentTacheProjet);
 				
 				// nom
 				tok = strtok(line, firstDelim);
 				char x = tok[0];
+				
 				currentTacheProjet = (int) x-'A';
-				fprintf(stdout,"\n%d", currentTacheProjet);
+				creationTacheProjet(projet, currentTacheProjet);
+				
+				 fprintf(stdout,"\n%d", currentTacheProjet);
 				//Creer une libListe par ligne
+				
 				int nom = currentTacheProjet; 
 				// Intitule;
 				tok = strtok(NULL, firstDelim);
 				tok=del(tok, '\'');
-				fprintf(stdout," %s", tok);
-				char * intitule = tok;
-
+				fprintf(stdout," %s\n", tok);
+				char * intitule = tok[0];
+				
 				
 				while (tok != NULL) {
 					tok = strtok(NULL, firstDelim);
@@ -128,6 +133,7 @@ Projet lecture(char *urlFichierSource){
 							char x = tok[0];
 							int duree = (int) x;
 							element=ajouterTache(&element, nom, duree);
+							//printf("--- ADD: %s %d %d \n", intitule, nom, duree);
 							element->intitule=intitule;
 							firstLine = 0;
 						}else{
@@ -139,16 +145,17 @@ Projet lecture(char *urlFichierSource){
 						}
 					}
 				}
-				printf("***********");
-				afficher(element, stdout);
-				printf("***********");
-				projet->tacheProjet[nom]=element;
+				//printf("***********");
+				//afficher(element, stdout);
+				//printf("***********");
+				//projet->tacheProjet[nom]=element;
+				
 			}
 			nbLine++;
 			printf("nbline : %d\n", nbLine);
 		}
 	}
-	projet->nbMaxTaches=nbLine;
+	//projet->nbMaxTaches=nbLine;
 	fclose(fichier);
 	return projet;
 }
