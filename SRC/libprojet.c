@@ -121,27 +121,34 @@ Projet lecture(char *urlFichierSource){
 				int nom = currentTacheProjet; 
 				// Intitule;
 				tok = strtok(NULL, firstDelim);
-				tok=del(tok, '\'');
 				fprintf(stdout," %s\n", tok);
-				char * intitule = tok[0];
+				char intitule[40]; // = del(tok, '\'');
+				strcpy(intitule, del(tok, '\''));
+				printf("> %s \n", intitule);
 				
 				
 				while (tok != NULL) {
+					printf(">2 %s \n", intitule);
 					tok = strtok(NULL, firstDelim);
+					printf(">3 %s \n", intitule);
+
 					if(tok != NULL) {
 						if(firstLine){
 							char x = tok[0];
 							int duree = (int) x;
 							element=ajouterTache(&element, nom, duree);
+							printf(">4 %s \n", intitule);
 							//printf("--- ADD: %s %d %d \n", intitule, nom, duree);
 							element->intitule=intitule;
 							firstLine = 0;
+							projet->tacheProjet[0]=ajouterTache(&projet->tacheProjet[0], nom, duree);
 						}else{
+							printf(">5 %s \n", intitule);
 							fprintf(stdout," %s", tok);
 							char x = tok[0];
 							int tache = (int) x-'A';
 							
-							element=ajouterTache(&element, tache, 0);
+							projet->tacheProjet[nom-1]=ajouterTache(&projet->tacheProjet[nom-1], tache, 0);
 						}
 					}
 				}
