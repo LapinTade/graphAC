@@ -72,13 +72,13 @@ Projet lecture(char *urlFichierSource){
 	int 	tmp;				/* Entier temporaire */
 	int 	nbTachesMax;		/* Nombre de tache max du projet */
 	int 	currentTache;		/* Tache courant */
-	int 	currentTacheProjet;	/* TacheProjet courant */
+	int 	currentTacheProjet=0;	/* TacheProjet courant */
 	int 	currentDureeTache; 	/* Duree du tache courant */
 	char 	*tok;				/* Tokenisation de la ligne lu */
 	char 	*firstDelim;		/* Premier separateur */
 	char 	*secDelim;			/* Seconds separateurs */
 	int		firstLine;
-	
+	int duree;
 	firstLine=1;
 	tmp = 1;
 	firstDelim=", \n -";
@@ -131,7 +131,7 @@ Projet lecture(char *urlFichierSource){
 						if(firstLine){
 							fprintf(stdout," >Duree: %s < ", tok);
 							char x = tok[0];
-							int duree = (int) x-'0';
+							duree = (int) x-'0';
 							printf("NOM: %d\n", nom);
 							printf("DUREE: %c\n", tok[0]);
 							printf("DUREE: %d\n", duree);
@@ -144,14 +144,20 @@ Projet lecture(char *urlFichierSource){
 							projet->tacheProjet[nom]=ajouterTache(&projet->tacheProjet[nom], tache, 0);
 						}
 					}
+				projet->tacheProjet[currentTacheProjet] = supprimerTache(
+            									projet->tacheProjet[currentTacheProjet], 
+            									currentTacheProjet);
+				projet->tacheProjet[currentTacheProjet]=ajouterTache(&projet->tacheProjet[currentTacheProjet], currentTacheProjet, duree);
 				}
 				firstLine = 1;
+				
 				//printf("***********");
 				//afficher(element, stdout);
 				//printf("***********");
 				//projet->tacheProjet[nom]=element;
 				
 			}
+
 			nbLine++;
 		}
 	}
