@@ -174,8 +174,6 @@ int main() {
     //FILE * file = fopen("save.txt", "r");
     projet = lecture("save.txt");
     affichage(projet, stdout);
-
-	flush();
     
     return 0;
 }
