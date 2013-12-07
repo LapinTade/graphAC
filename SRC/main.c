@@ -174,21 +174,7 @@ int main() {
     //FILE * file = fopen("save.txt", "r");
     projet = lecture("save.txt");
     affichage(projet, stdout);
-    
-    	int i;	/* Iterateur */
-	
-	fprintf(stdout, "\n\n# nombre maximum de taches\n");
-	fprintf(stdout, "%i\n", projet->nbMaxTaches);
-	fprintf(stdout, "# taches : taches\n");
 
-	for (i = 0; i < projet->nbMaxTaches; ++i) {
-		if (projet->tacheProjet[i] != NULL) {
-			fprintf(stdout, "%i : ", i + 1);
-			afficher(projet->tacheProjet[i], stdout);
-		}else{
-			fprintf(stdout, "projet->tacheProjet[%d] == NULL\n", i);
-		}
-	}
 	flush();
     
     return 0;
