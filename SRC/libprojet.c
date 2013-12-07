@@ -136,18 +136,14 @@ Projet lecture(char *urlFichierSource){
 							printf("DUREE: %c\n", tok[0]);
 							printf("DUREE: %d\n", duree);
 							firstLine = 0;
-							projet->tacheProjet[nom]=ajouterTache(&projet->tacheProjet[nom], nom, duree);
+							//projet->tacheProjet[nom]=ajouterTache(&projet->tacheProjet[nom], nom, duree);
 						}else{
 							fprintf(stdout," >Tache: %s < ", tok);
 							char x = tok[0];
 							int tache = (int) x-'A';							
 							projet->tacheProjet[nom]=ajouterTache(&projet->tacheProjet[nom], tache, 0);
 						}
-					}
-				projet->tacheProjet[currentTacheProjet] = supprimerTache(
-            									projet->tacheProjet[currentTacheProjet], 
-            									currentTacheProjet);
-				projet->tacheProjet[currentTacheProjet]=ajouterTache(&projet->tacheProjet[currentTacheProjet], currentTacheProjet, duree);
+					}			
 				}
 				firstLine = 1;
 				
@@ -157,7 +153,7 @@ Projet lecture(char *urlFichierSource){
 				//projet->tacheProjet[nom]=element;
 				
 			}
-
+			projet->tacheProjet[currentTacheProjet]=ajouterTache(&projet->tacheProjet[currentTacheProjet], currentTacheProjet, duree);
 			nbLine++;
 		}
 	}
