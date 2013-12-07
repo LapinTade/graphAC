@@ -129,22 +129,23 @@ Projet lecture(char *urlFichierSource){
 
 					if(tok != NULL) {
 						if(firstLine){
+							fprintf(stdout," >Duree: %s < ", tok);
 							char x = tok[0];
 							int duree = (int) x;
 							element=ajouterTache(&element, nom, duree);
-							//printf("--- ADD: %s %d %d \n", intitule, nom, duree);
+							printf("NOM: %d\n", nom);
 							element->intitule=intitule;
 							firstLine = 0;
 							projet->tacheProjet[0]=ajouterTache(&projet->tacheProjet[0], nom, duree);
 						}else{
-							fprintf(stdout," %s", tok);
+							fprintf(stdout," >Tache: %s < ", tok);
 							char x = tok[0];
-							int tache = (int) x-'A';
-							
+							int tache = (int) x-'A';							
 							projet->tacheProjet[nom-1]=ajouterTache(&projet->tacheProjet[nom-1], tache, 0);
 						}
 					}
 				}
+				firstLine = 1;
 				//printf("***********");
 				//afficher(element, stdout);
 				//printf("***********");
