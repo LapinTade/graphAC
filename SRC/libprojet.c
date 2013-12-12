@@ -34,7 +34,7 @@ Projet creation(int nbTachesMax){
 	char 	x;		/* Reponse utilisateur */
 	
 	projet = (Projet) malloc(sizeof(TypProjet));
-	projet->tacheProjet = malloc(sizeof(ListeTaches)*nbTachesMax);
+	projet->tacheProjet = malloc(sizeof(ListeTaches)*(nbTachesMax+2));
 	projet->estOriente = 0;
 	
 	/*printf("Le projet est-il oriente ? (y=yes ||n=no) ");
@@ -136,7 +136,7 @@ Projet lecture(char *urlFichierSource){
 							printf("DUREE: %c\n", tok[0]);
 							printf("DUREE: %d\n", duree);
 							firstLine = 0;
-							//projet->tacheProjet[nom]=ajouterTache(&projet->tacheProjet[nom], nom, duree);
+							//projet->tacheProjet[nom]=ajouterTacheAfter(&projet->tacheProjet[nom], nom, duree);
 						}else{
 							fprintf(stdout," >Tache: %s < ", tok);
 							char x = tok[0];
@@ -346,4 +346,81 @@ char* del(char str[], char ch){
 
 
 	return str1;
+}
+
+/*
+* Fonction : 	creationInitFin
+*
+* Parametres : 	TypProjet *projet
+*
+* Retour : 		rien
+*
+* Description : Creer l'etat initial et final pondere a 0.
+*
+*/
+void creationInitFin(TypProjet *projet){
+	int i=0;
+	int tabOccur[projet->nbMaxTaches];
+	printf("Tache : %d\n", projet->nbMaxTaches);
+	creationTacheProjet(projet, projet->nbMaxTaches);
+	int tacheInit = projet->nbMaxTaches;
+	projet->nbMaxTaches++;
+	printf("Tache : %d\n", projet->nbMaxTaches);
+	creationTacheProjet(projet, projet->nbMaxTaches);
+	int tacheFin = projet->nbMaxTaches;
+	projet->nbMaxTaches++;
+	ListeTaches element;
+	element = (ListeTaches) malloc(sizeof(TypTache));
+	
+	//Creer tache pour init et fin avec intitule
+	projet->tacheProjet[tacheInit]=ajouterTache(&projet->tacheProjet[tacheInit], tacheInit, 0);
+	projet->tacheProjet[tacheFin]=ajouterTache(&projet->tacheProjet[tacheFin], tacheFin, 0);
+	
+	//Parcourir la liste d'adjacence et ajouter le noeud init en dependance au noeud qui n'ont pas de dependance
+	
+	for(i = 0; i < projet->nbMaxTaches-2; i++) {
+		if(projet->tacheProjet[i]->tacheSuivant->tache == -1) {
+			projet->tacheProjet[i]=ajouterTacheAfter(&projet->tacheProjet[i], tacheInit, 0);
+		}
+	}
+	for(i = 0; i < projet->nbMaxTaches-2; i++){
+		tabOccur[i]=0;
+	}
+	
+	for(i = 0; i < projet->nbMaxTaches-2; i++){
+		element = projet->tacheProjet[i];
+		while(element->tache != -1){
+			tabOccur[element->tache]++;
+			element=element->tacheSuivant;
+		}
+	}
+	for(i = 0; i < projet->nbMaxTaches-2; i++){
+		if(tabOccur[i] == 1){
+			projet->tacheProjet[tacheFin]=ajouterTacheAfter(&projet->tacheProjet[tacheFin], i, 0);
+		}
+	}
+	
+}
+
+void recupDuree(TypProjet *projet){
+	int i=0;
+	int tabDuree[projet->nbMaxTaches];
+	ListeTaches element;
+	element = (ListeTaches) malloc(sizeof(TypTache));
+	printf("YOYOYOOY");
+	for(i = 0; i < projet->nbMaxTaches; i++){
+		tabDuree[i]=0;
+	}
+	
+	for(i = 0; i < projet->nbMaxTaches; i++){
+		while(element->tache != -1){
+			if(element->dureeTache > 0){
+				tabDuree[element->tache]=element->dureeTache;
+			}
+		}
+	}
+	for(i = 0; i < projet->nbMaxTaches; i++){
+		printf("[%d] => %d\n", i, tabDuree[i]);
+	}
+
 }

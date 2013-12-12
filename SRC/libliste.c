@@ -37,7 +37,44 @@ ListeTaches ajouterTache(ListeTaches *liste, int tache, int duree){
 	element->dureeTache = duree;
 	element->tacheSuivant = *liste;
 	
-	// return element
+	 //return element;
+	
+}
+
+
+
+/*
+* Fonction : 	ajouterTacheAfter
+*
+* Parametres : 	ListeTaches *liste (parametre pointeur ListeTaches)
+* 				int tache (parametre  entier)
+*				int duree 
+*
+* Retour : 		ListeTaches
+*
+* Description : ajoute un element à la fin de la liste chainee liste.
+*
+*/
+ListeTaches ajouterTacheAfter(ListeTaches *liste, int tache, int duree){
+	ListeTaches element;	/* Maillon creer a ajouter */
+	ListeTaches element2;
+	element = (ListeTaches) malloc(sizeof(TypTache));
+	element2 = (ListeTaches) malloc(sizeof(TypTache));
+	
+	element = *liste;
+	if(element->tache!=-1){
+		while(element->tacheSuivant->tache != -1) {
+			element = element->tacheSuivant;
+		}	
+		element2->tacheSuivant = element->tacheSuivant;
+		element->tacheSuivant=element2;
+		element2->tache = tache;
+		element2->dureeTache = duree;
+	}
+
+	//element->tacheSuivant = *liste;
+	
+	return element;
 	
 }
 

@@ -38,5 +38,7 @@ void 	suppressionDependance(Projet projet, int tache1, int tache2, int duree);
 void 	affichage(Projet projet, FILE *file);
 void 	sauvegarde(Projet projet, char* urlFichierDest);
 char* 	del(char str[], char ch);
+void 	creationInitFin(TypProjet *projet);
+void 	recupDuree(TypProjet *projet);
 
 //#endif

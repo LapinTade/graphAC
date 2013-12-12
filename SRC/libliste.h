@@ -27,6 +27,7 @@ struct TypTache{
 typedef TypTache* ListeTaches;
 
 ListeTaches 	ajouterTache(ListeTaches *tache, int sommet, int poid);
+ListeTaches 	ajouterTacheAfter(ListeTaches *tache, int sommet, int poid);
 ListeTaches 	supprimerTache(ListeTaches tache, int sommet);
 ListeTaches 	supprimerDependance(ListeTaches tache, int sommet, int poids);
 void 			afficher(ListeTaches tache, FILE* file);
