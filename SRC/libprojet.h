@@ -40,5 +40,7 @@ void 	sauvegarde(Projet projet, char* urlFichierDest);
 char* 	del(char str[], char ch);
 void 	creationInitFin(TypProjet *projet);
 void 	recupDuree(Projet projet);
+int 	dureePlusCourte(Projet projet, int debut, int fin);
+int 	dureePlusGrande(Projet projet, int debut, int fin);
 
 //#endif

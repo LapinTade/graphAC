@@ -290,7 +290,7 @@ void affichage(Projet projet, FILE *fichier){
 
 	for (i = 0; i < projet->nbMaxTaches; ++i) {
 		if (projet->tacheProjet[i] != NULL) {
-			fprintf(fichier, "%i : ", i + 1);
+			fprintf(fichier, "%i : ", i);
 			afficher(projet->tacheProjet[i], fichier);
 		}
 	}
@@ -430,3 +430,66 @@ void recupDuree(Projet projet){
 	}
 
 }
+
+int dureePlusCourte(Projet projet, int debut, int fin) {
+	ListeTaches tacheCourante;
+	ListeTaches element;
+	int min;
+	int tacheCouranteDuree;
+	int elementMin;
+	
+	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
+	
+	tacheCourante = projet->tacheProjet[fin];
+	tacheCouranteDuree = tacheCourante->dureeTache;
+	element = tacheCourante;
+	
+	min = 100000;
+	
+	while(element->tache != -1) {
+		if(element->tache != fin && element->tache != debut) {
+			elementMin = dureePlusCourte(projet, debut, element->tache);
+			//printf("\nCourant: %d Element: %d  duree: %d, elementMin: %d\n", tacheCourante->tache, element->tache, element->dureeTache, elementMin);
+			if(elementMin < min) min = elementMin;
+		}
+		element = element->tacheSuivant;
+	}
+
+	if(tacheCourante->tacheSuivant->tache == debut) {
+		return tacheCouranteDuree;
+	} else {
+		//printf("%d MIN: %d\n",fin,  min);
+		return min + tacheCouranteDuree;
+	}
+}
+
+int dureePlusGrande(Projet projet, int debut, int fin) {
+	ListeTaches tacheCourante;
+	ListeTaches element;
+	int max;
+	int tacheCouranteDuree;
+	int elementMax;
+	
+	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
+	
+	tacheCourante = projet->tacheProjet[fin];
+	tacheCouranteDuree = tacheCourante->dureeTache;
+	element = tacheCourante;
+	
+	max = -1;
+	
+	while(element->tache != -1) {
+		if(element->tache != fin && element->tache != debut) {
+			elementMax = dureePlusCourte(projet, debut, element->tache);
+			if(elementMax > max) max = elementMax;
+		}
+		element = element->tacheSuivant;
+	}
+
+	if(tacheCourante->tacheSuivant->tache == debut) {
+		return tacheCouranteDuree;
+	} else {
+		return max + tacheCouranteDuree;
+	}
+}
+

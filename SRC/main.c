@@ -170,12 +170,31 @@ void menu() {
 */
 int main() {
     //menu();
+    int i;
+    int* tabdPC = (int*) malloc(sizeof(int));
+    int* tabdPG = (int*) malloc(sizeof(int));
     Projet 	projet;			/* Projet creer pendant l'interaction utilisateur */
     //FILE * file = fopen("save.txt", "r");
+    printf("\n=========================\n\n--------LECTURE---------------\n");
     projet = lecture("save.txt");
+    
+    printf("\n=========================\n\n--------AFFICHAGE-------------\n");
     affichage(projet, stdout);
+    
+    printf("\n=========================\n\n--------INITFIN---------------\n");
     creationInitFin(projet);
+    
+    printf("\n=========================\n\n--------AFFICHAGE-------------\n");
     affichage(projet, stdout);
+    
+    printf("\n=========================\n\n--------MIN-------------------\n");
+    int min = dureePlusCourte(projet,11,10);
+    printf("Duree Min Projet: %d", min);
+    
+    printf("\n=========================\n\n--------MAX-------------------\n");
+    int max = dureePlusGrande(projet,11,10);
+    printf("Duree Min Projet: %d", max);
+
     
     return 0;
 }
