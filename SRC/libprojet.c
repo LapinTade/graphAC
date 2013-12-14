@@ -159,6 +159,7 @@ Projet lecture(char *urlFichierSource){
 	}
 	//projet->nbMaxTaches=nbLine;
 	fclose(fichier);
+	recupDuree(projet);
 	return projet;
 }
 
@@ -402,25 +403,30 @@ void creationInitFin(TypProjet *projet){
 	
 }
 
-void recupDuree(TypProjet *projet){
+void recupDuree(Projet projet){
 	int i=0;
 	int tabDuree[projet->nbMaxTaches];
 	ListeTaches element;
 	element = (ListeTaches) malloc(sizeof(TypTache));
-	printf("YOYOYOOY");
 	for(i = 0; i < projet->nbMaxTaches; i++){
 		tabDuree[i]=0;
 	}
 	
 	for(i = 0; i < projet->nbMaxTaches; i++){
+		element= projet->tacheProjet[i];
 		while(element->tache != -1){
 			if(element->dureeTache > 0){
 				tabDuree[element->tache]=element->dureeTache;
 			}
+			element=element->tacheSuivant;
 		}
 	}
 	for(i = 0; i < projet->nbMaxTaches; i++){
-		printf("[%d] => %d\n", i, tabDuree[i]);
+		element= projet->tacheProjet[i];
+		while(element->tache != -1){
+			element->dureeTache=tabDuree[element->tache];
+			element=element->tacheSuivant;
+		}
 	}
 
 }

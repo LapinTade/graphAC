@@ -39,6 +39,6 @@ void 	affichage(Projet projet, FILE *file);
 void 	sauvegarde(Projet projet, char* urlFichierDest);
 char* 	del(char str[], char ch);
 void 	creationInitFin(TypProjet *projet);
-void 	recupDuree(TypProjet *projet);
+void 	recupDuree(Projet projet);
 
 //#endif
