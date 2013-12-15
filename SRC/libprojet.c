@@ -479,8 +479,108 @@ int dureePlusGrande(Projet projet, int debut, int fin) {
 	
 	while(element->tache != -1) {
 		if(element->tache != fin && element->tache != debut) {
-			elementMax = dureePlusCourte(projet, debut, element->tache);
+			elementMax = dureePlusGrande(projet, debut, element->tache);
 			if(elementMax > max) max = elementMax;
+		}
+		element = element->tacheSuivant;
+	}
+
+	if(tacheCourante->tacheSuivant->tache == debut) {
+		return tacheCouranteDuree;
+	} else {
+		return max + tacheCouranteDuree;
+	}
+}
+
+
+int dureeProjetPlusCourt(Projet projet, int debut, int fin) {
+	ListeTaches tacheCourante;
+	ListeTaches element;
+	int max;
+	int elementMax;
+	int critique;
+	
+	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
+	
+	tacheCourante = projet->tacheProjet[fin];
+	element = tacheCourante;
+	max = -1;
+	
+	while(element->tache != -1) {
+		if(element->tache != fin && element->tache != debut) {
+			elementMax = dureePlusCourte(projet, debut, element->tache);
+			//printf(">%d\n", elementMax);
+			if(elementMax > max) {
+				max = elementMax;
+				critique = element->tache;
+			}
+		}
+		element = element->tacheSuivant;
+	}
+	
+	printf("Tache critique: %d\n", critique);
+	return max;
+}
+
+
+
+int dureeProjetPlusLong(Projet projet, int debut, int fin) {
+	ListeTaches tacheCourante;
+	ListeTaches element;
+	int max;
+	int elementMax;
+	int critique;
+	
+	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
+	
+	tacheCourante = projet->tacheProjet[fin];
+	element = tacheCourante;
+	max = -1;
+	
+	while(element->tache != -1) {
+		if(element->tache != fin && element->tache != debut) {
+			elementMax = dureePlusGrande(projet, debut, element->tache);
+			//printf(">%d\n", elementMax);
+			if(elementMax > max) {
+				max = elementMax;
+				critique = element->tache;
+			}
+		}
+		element = element->tacheSuivant;
+	}
+	
+	printf("Tache critique: %d\n", critique);
+	return max;
+}
+
+
+
+int cheminCritique(Projet projet, int debut, int fin, ListeTaches chemin) {
+	ListeTaches tacheCourante;
+	ListeTaches element;
+	ListeTaches tmp;
+	int max;
+	int tacheCouranteDuree;
+	int elementMax;
+	
+	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
+	
+	tacheCourante = projet->tacheProjet[fin];
+	tacheCouranteDuree = tacheCourante->dureeTache;
+	element = tacheCourante;
+	
+	max = -1;
+	
+	while(element->tache != -1) {
+		if(element->tache != fin && element->tache != debut) {
+			elementMax = cheminCritique(projet, debut, element->tache, chemin);
+			if(elementMax > max) {
+				max = elementMax;
+				//tmp = element;
+				//tmp->tacheSuivant = chemin;
+				//chemin = tmp;
+				printf(">Chemin: %d\n", element->tache);
+			}
 		}
 		element = element->tacheSuivant;
 	}

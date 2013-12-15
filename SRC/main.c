@@ -142,5 +142,42 @@ void menu() {
 int main() {
     menu();
 
+    //menu();
+    int i;
+    int* tabdPC = (int*) malloc(sizeof(int));
+    int* tabdPG = (int*) malloc(sizeof(int));
+    Projet 	projet;			/* Projet creer pendant l'interaction utilisateur */
+    //FILE * file = fopen("save.txt", "r");
+    printf("\n=========================\n\n--------LECTURE---------------\n");
+    projet = lecture("save.txt");
+    
+    printf("\n=========================\n\n--------AFFICHAGE-------------\n");
+    affichage(projet, stdout);
+    
+    printf("\n=========================\n\n--------INITFIN---------------\n");
+    creationInitFin(projet);
+    
+    printf("\n=========================\n\n--------AFFICHAGE-------------\n");
+    affichage(projet, stdout);
+    
+    printf("\n=========================\n\n--------MIN-------------------\n");
+    int min = dureePlusCourte(projet,11,10);
+    printf("Plus court chemin : %d", min);
+    
+    printf("\n=========================\n\n--------MAX-------------------\n");
+    int max = dureePlusGrande(projet,11,10);
+    printf("Plus long chemin: %d", max);
+    
+    printf("\n=========================\n\n--------MAX-------------------\n");
+    int min2 = dureeProjetPlusCourt(projet,11,10);
+    printf("Date au plus court: %d", min2);
+    
+    printf("\n=========================\n\n--------MAX-------------------\n");
+    int max2 = dureeProjetPlusLong(projet,11,10);
+    printf("Date au plus long: %d", max2);
+    
+    ListeTaches test = (ListeTaches) malloc(projet->nbMaxTaches * sizeof(TypTache));
+    cheminCritique(projet, 11, 10, test);
+
     return 0;
 }

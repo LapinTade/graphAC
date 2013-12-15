@@ -42,6 +42,9 @@ void 	creationInitFin(TypProjet *projet);
 void 	recupDuree(Projet projet);
 int 	dureePlusCourte(Projet projet, int debut, int fin);
 int 	dureePlusGrande(Projet projet, int debut, int fin);
-int sommeDuree(Projet projet);
+int 	sommeDuree(Projet projet);
+int 	dureeProjetPlusCourt(Projet projet, int debut, int fin);
+int 	dureeProjetPlusLong(Projet projet, int debut, int fin);
+int 	cheminCritique(Projet projet, int debut, int fin, ListeTaches chemin);
 
 //#endif
