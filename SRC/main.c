@@ -16,9 +16,7 @@
 #include <stdlib.h>
 #include "libprojet.h"
 
-typedef enum { CHARGER = 0, CREER = 1, AFFICHER = 2, AJOUTSOMMET = 3,
-				AJOUTVOISIN = 4, SUPPRSOMMET = 5, SUPPRVOISIN = 6, 
-				SUPPRARRETE = 7, ENREGISTRER = 8 } CHOIX; /* Enumeration des 
+typedef enum { CHARGER = 0, AFFICHER = 1, ENREGISTRER = 2, AFFICHERDATE = 3, AFFICHERCHEMIN = 4 } CHOIX; /* Enumeration des 
 															choix utilisateurs
 															 pour le menu */
 
@@ -62,14 +60,10 @@ void menu() {
 
     while (c != 'n') {
         printf("\t [0] Charger un projet \n");
-        printf("\t [1] Creer un automate\n");
-        printf("\t [2] Afficher l'automate\n");
-        printf("\t [3] Ajouter un tacheProjet\n");
-        printf("\t [4] Ajouter un tache\n");
-        printf("\t [5] Supprimer un tacheProjet\n");
-        printf("\t [6] Supprimer un tache\n");
-		printf("\t [7] Supprimer une arrete\n");
-        printf("\t [8] Enregistrer l'automate\n");
+        printf("\t [1] Afficher le graphe\n");
+        printf("\t [2] Enregistrer le graphe\n");
+        printf("\t [3] Afficher les dates au plus courts et au plus tard du chantier\n");
+        printf("\t [4] Afficher les chemins critiques\n");
 
         scanf( "%d", &res);
         flush();
@@ -79,77 +73,54 @@ void menu() {
             printf("Entrez le chemin d'accès au fichier a charger : ");
             scanf( "%s", nomFichier);
             projet = lecture(nomFichier);
+			creationInitFin(projet);
+			recupDuree(projet);
+			printf("Fichier de chantier charger avec succes.\n");
 			flush();
-        	break;
-        case CREER :
-            printf("Entrez le nombre de tacheProjet : ");
-            scanf( "%d", &nbTacheProjet);
-            projet = creation(nbTacheProjet);
-            flush();
         	break;
         case AFFICHER :
             affichage(projet, stdout);
-        break;
-            case AJOUTSOMMET :
-            printf("Entrez le numero de tacheProjet : ");
-            scanf( "%d", &indice);
-            flush();
-            creationTacheProjet(projet, indice - 1);
-        	break;
-        case AJOUTVOISIN :
-            printf("Entrez le numero de tacheProjet : ");
-            scanf( "%d", &indice);
-            flush();
-            printf("Entrez le numero de tacheProjet du tache : ");
-            scanf( "%d", &tache);
-            flush();
-            printf("Entrez le duree : ");
-            scanf( "%d", &duree);
-            flush();
-            projet->tacheProjet[indice - 1] = ajouterTache(
-            									&projet->tacheProjet[indice - 1], 
-            									tache, duree);
-        	break;
-        case SUPPRSOMMET :
-            printf("Entrez le numero de tacheProjet : ");
-            scanf( "%d", &indice);
-            flush();
-            suppressionTacheProjet(projet, indice);
-        	break;
-        case SUPPRVOISIN :
-            printf("Entrez le numero de tacheProjet : ");
-            scanf( "%d", &indice);
-            flush();
-            printf("Entrez le numero de tacheProjet du tache : ");
-            scanf( "%d", &tache);
-            flush();
-            projet->tacheProjet[indice - 1] = supprimerTache(
-            									projet->tacheProjet[indice - 1], 
-            									tache);
-        	break;
-        case SUPPRARRETE :
-            printf("Entrez le numero de tacheProjet : ");
-            scanf( "%d", &indice);
-            flush();
-            printf("Entrez le numero de tacheProjet du tache : ");
-            scanf( "%d", &tache);
-            flush();
-            printf("Entrez le duree : ");
-            scanf( "%d", &duree);
-            flush();
-            suppressionDependance(projet, indice, tache, duree);
         	break;
         case ENREGISTRER :
-            printf("Entrez le nom du nomFichier de sauvegarde : ");
+            printf("Entrez le nom du nom du fichier de sauvegarde : ");
             scanf("%s", nomFichier);
             flush();
             fichier = fopen(nomFichier, "w");
             affichage(projet, fichier);
             fclose(fichier);
+            printf("Chantier enregistre dans : %s", nomFichier);
+        break;
+            case AFFICHERDATE :
+            printf("La date au plus court du chantier est : %d \n",
+            dureePlusGrande(projet, 
+							projet->nbMaxTaches-2,
+							projet->tacheProjet[projet->nbMaxTaches-1]
+								->tacheSuivant->tache
+							));
+            printf("La date au plus tard du chantier est : %d \n", sommeDuree(projet));
         	break;
-        default : 
-        	printf("Veuillez entrer un chiffre entre 0 et 8.\n");
+        case AFFICHERCHEMIN :      
+            printf("Le chemin le plus court du chantier est : ");
+            //tableau d'entier a afficher
+            printf("\n");
+            printf("Duree du chemin le plus court : %d\n", 
+                        dureePlusCourte(projet,
+							projet->nbMaxTaches-2,
+							projet->tacheProjet[projet->nbMaxTaches-1]
+								->tacheSuivant->tache
+							));
+							
+            printf("Le chemin le plus long du chantier est : ");
+            //tableau d'entier a afficher
+            printf("\n");
+            printf("Duree du chemin le plus long : %d\n", 
+            dureePlusGrande(projet,
+							projet->nbMaxTaches-2,
+							projet->tacheProjet[projet->nbMaxTaches-1]
+								->tacheSuivant->tache
+							));
         	break;
+        	default : printf("Veuillez saisir un chiffre correct\n");
         }
 
         printf("\nVoulez vous continuer ? (o pour oui / n pour non)\n");
@@ -169,32 +140,7 @@ void menu() {
 *
 */
 int main() {
-    //menu();
-    int i;
-    int* tabdPC = (int*) malloc(sizeof(int));
-    int* tabdPG = (int*) malloc(sizeof(int));
-    Projet 	projet;			/* Projet creer pendant l'interaction utilisateur */
-    //FILE * file = fopen("save.txt", "r");
-    printf("\n=========================\n\n--------LECTURE---------------\n");
-    projet = lecture("save.txt");
-    
-    printf("\n=========================\n\n--------AFFICHAGE-------------\n");
-    affichage(projet, stdout);
-    
-    printf("\n=========================\n\n--------INITFIN---------------\n");
-    creationInitFin(projet);
-    
-    printf("\n=========================\n\n--------AFFICHAGE-------------\n");
-    affichage(projet, stdout);
-    
-    printf("\n=========================\n\n--------MIN-------------------\n");
-    int min = dureePlusCourte(projet,11,10);
-    printf("Duree Min Projet: %d", min);
-    
-    printf("\n=========================\n\n--------MAX-------------------\n");
-    int max = dureePlusGrande(projet,11,10);
-    printf("Duree Min Projet: %d", max);
+    menu();
 
-    
     return 0;
 }

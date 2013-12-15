@@ -159,7 +159,6 @@ Projet lecture(char *urlFichierSource){
 	}
 	//projet->nbMaxTaches=nbLine;
 	fclose(fichier);
-	recupDuree(projet);
 	return projet;
 }
 
@@ -492,4 +491,11 @@ int dureePlusGrande(Projet projet, int debut, int fin) {
 		return max + tacheCouranteDuree;
 	}
 }
-
+int sommeDuree(Projet projet){
+	int res=0;
+	int i;
+	for(i=0;i<projet->nbMaxTaches; i++){
+		res=res+projet->tacheProjet[i]->dureeTache;
+	}
+	return res;
+}
