@@ -37,7 +37,7 @@ Projet creation(int nbTachesMax){
 	projet->tacheProjet = malloc(sizeof(ListeTaches)*(nbTachesMax+2));
 	projet->estOriente = 0;
 	
-	/*printf("Le projet est-il oriente ? (y=yes ||n=no) ");
+	/*printf("Le projet est-il orient	num = tacheCourante->tache;e ? (y=yes ||n=no) ");
 	scanf("%c", &x);
 	if (x == 'y' ) {
 		projet->estOriente=1;
@@ -98,9 +98,7 @@ Projet lecture(char *urlFichierSource){
 		fichier = fopen(urlFichierSource, "r");
 		nbLine-=2;
 		projet=creation(nbLine);
-		printf("nbline : %d\n", nbLine);
 		nbLine=0;
-		printf("nbline : %d\n", nbLine);
 		while (fgets(line, 128, fichier) != NULL) {
 			if (nbLine > 1) {
 				//fprintf(stdout,line);
@@ -114,7 +112,6 @@ Projet lecture(char *urlFichierSource){
 				currentTacheProjet = (int) x-'A';
 				creationTacheProjet(projet, currentTacheProjet);
 				
-				 fprintf(stdout,"\n%d", currentTacheProjet);
 				//Creer une libListe par ligne
 				
 				int nom = currentTacheProjet; 
@@ -122,23 +119,17 @@ Projet lecture(char *urlFichierSource){
 				tok = strtok(NULL, firstDelim);
 				char intitule[40]; // = del(tok, '\'');
 				strcpy(intitule, tok);
-				printf(" %s", intitule);
 				
 				while (tok != NULL) {
 					tok = strtok(NULL, firstDelim);
 
 					if(tok != NULL) {
 						if(firstLine){
-							fprintf(stdout," >Duree: %s < ", tok);
 							char x = tok[0];
 							duree = (int) x-'0';
-							printf("NOM: %d\n", nom);
-							printf("DUREE: %c\n", tok[0]);
-							printf("DUREE: %d\n", duree);
 							firstLine = 0;
 							//projet->tacheProjet[nom]=ajouterTacheAfter(&projet->tacheProjet[nom], nom, duree);
 						}else{
-							fprintf(stdout," >Tache: %s < ", tok);
 							char x = tok[0];
 							int tache = (int) x-'A';							
 							projet->tacheProjet[nom]=ajouterTache(&projet->tacheProjet[nom], tache, 0);
@@ -147,10 +138,6 @@ Projet lecture(char *urlFichierSource){
 				}
 				firstLine = 1;
 				
-				//printf("***********");
-				//afficher(element, stdout);
-				//printf("***********");
-				//projet->tacheProjet[nom]=element;
 				
 			}
 			projet->tacheProjet[currentTacheProjet]=ajouterTache(&projet->tacheProjet[currentTacheProjet], currentTacheProjet, duree);
@@ -361,11 +348,9 @@ char* del(char str[], char ch){
 void creationInitFin(TypProjet *projet){
 	int i=0;
 	int tabOccur[projet->nbMaxTaches];
-	printf("Tache : %d\n", projet->nbMaxTaches);
 	creationTacheProjet(projet, projet->nbMaxTaches);
 	int tacheInit = projet->nbMaxTaches;
 	projet->nbMaxTaches++;
-	printf("Tache : %d\n", projet->nbMaxTaches);
 	creationTacheProjet(projet, projet->nbMaxTaches);
 	int tacheFin = projet->nbMaxTaches;
 	projet->nbMaxTaches++;
@@ -598,4 +583,110 @@ int sommeDuree(Projet projet){
 		res=res+projet->tacheProjet[i]->dureeTache;
 	}
 	return res;
+}
+int cheminCritiqueLong(Projet projet, int debut, int fin) {
+	ListeTaches tacheCourante;
+	ListeTaches element;
+	ListeTaches tmp = (ListeTaches) malloc(sizeof(TypTache));
+	int max;
+	int tacheCouranteDuree;
+	int elementMax;
+	int loop;
+	int critique;
+	
+	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
+	
+	tacheCourante = projet->tacheProjet[fin];
+	tacheCouranteDuree = tacheCourante->dureeTache;
+	element = tacheCourante;
+	
+	critique = fin;
+	max = -1;
+	loop = 1;
+	
+	tacheCourante = projet->tacheProjet[critique];
+	element = tacheCourante;
+
+	printf("[%d]", projet->nbMaxTaches-1);
+	printf(" <= [%d]", fin);
+
+	while(loop == 1) {
+		//tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
+		//printf("Courant: %d\n", element->tache);
+		
+		max = -1;
+		
+		while(element->tache != -1) {
+			if(element->tache != fin && element->tache != debut) {
+				elementMax = dureePlusGrande(projet, debut, element->tache);
+				//printf(">%d\n", elementMax);
+				if(elementMax > max) {
+					max = elementMax;
+					critique = element->tache;
+					tmp = element;
+				}
+			}
+			element = element->tacheSuivant;
+		}
+		
+		printf(" <= [%d]", critique);
+		tmp=ajouterTacheAfter(&tmp, critique, projet->tacheProjet[critique]->dureeTache);
+		
+		element = projet->tacheProjet[critique]->tacheSuivant;
+		//printf(" Suivant: %d\n", element->tache);
+		if(element->tache == -1 || element->tache == debut) loop=0;
+	}
+		printf(" <= [%d]", debut);
+	return 0;
+}
+
+int cheminCritiqueCourt(Projet projet, int debut, int fin) {
+	ListeTaches tacheCourante;
+	ListeTaches element;
+	ListeTaches tmp;
+	ListeTaches chemin;
+	int max;
+	int tacheCouranteDuree;
+	int elementMax;
+	int loop;
+	int critique;
+	
+	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
+	chemin = (ListeTaches) malloc(projet->nbMaxTaches * sizeof(TypTache));
+	
+	critique = fin;
+	loop = 1;
+	
+	tacheCourante = projet->tacheProjet[critique];
+	element = tacheCourante;
+	printf("[%d]", projet->nbMaxTaches-1);
+	printf(" <= [%d]", fin);
+	//chemin = ajouterTache(chemin, projet->tacheProjet[fin]->tache, 0);
+	while(loop == 1) {
+		//tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
+		//printf("Courant: %d\n", element->tache);
+		
+		max = 100000;
+		
+		while(element->tache != -1) {
+			if(element->tache != fin && element->tache != debut) {
+				elementMax = dureePlusCourte(projet, debut, element->tache);
+				//printf(">Element %d | Duree: %d\n", element->tache, elementMax);
+				if(elementMax < max) {
+					max = elementMax;
+					critique = element->tache;
+					//printf(" -%d|%d- ", element->tache, max);
+				}
+			}
+			element = element->tacheSuivant;
+		}
+		
+		//chemin = ajouterTache(chemin , tmp->tache,tmp->dureeTache);
+		printf(" <= [%d]", critique);
+		element = projet->tacheProjet[critique]->tacheSuivant;
+		//printf(" Suivant: %d\n", element->tache);
+		if(element->tache == -1 || element->tache == debut) loop=0;
+	}
+	printf(" <= [%d]", debut);
+	return 0;
 }
