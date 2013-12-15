@@ -189,11 +189,22 @@ int main() {
     
     printf("\n=========================\n\n--------MIN-------------------\n");
     int min = dureePlusCourte(projet,11,10);
-    printf("Duree Min Projet: %d", min);
+    printf("Plus court chemin : %d", min);
     
     printf("\n=========================\n\n--------MAX-------------------\n");
     int max = dureePlusGrande(projet,11,10);
-    printf("Duree Min Projet: %d", max);
+    printf("Plus long chemin: %d", max);
+    
+    printf("\n=========================\n\n--------MAX-------------------\n");
+    int min2 = dureeProjetPlusCourt(projet,11,10);
+    printf("Date au plus court: %d", min2);
+    
+    printf("\n=========================\n\n--------MAX-------------------\n");
+    int max2 = dureeProjetPlusLong(projet,11,10);
+    printf("Date au plus long: %d", max2);
+    
+    //int * test = (int*) malloc(sizeof(int));
+    //int max3 = dureeProjetPlusLong(projet, 11, 10);
 
     
     return 0;
