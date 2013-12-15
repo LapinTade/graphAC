@@ -574,13 +574,13 @@ int cheminCritique(Projet projet, int debut, int fin, ListeTaches chemin) {
 	
 	while(element->tache != -1) {
 		if(element->tache != fin && element->tache != debut) {
-			elementMax = dureePlusGrande(projet, debut, element->tache);
+			elementMax = cheminCritique(projet, debut, element->tache, chemin);
 			if(elementMax > max) {
 				max = elementMax;
-				tmp = element;
-				tmp->tacheSuivant = chemin;
-				chemin = tmp;
-				
+				//tmp = element;
+				//tmp->tacheSuivant = chemin;
+				//chemin = tmp;
+				printf(">Chemin: %d\n", element->tache);
 			}
 		}
 		element = element->tacheSuivant;

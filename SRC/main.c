@@ -203,7 +203,7 @@ int main() {
     int max2 = dureeProjetPlusLong(projet,11,10);
     printf("Date au plus long: %d", max2);
     
-    ListeTaches = (ListeTaches) malloc(sizeof(TypTache));
+    ListeTaches test = (ListeTaches) malloc(projet->nbMaxTaches * sizeof(TypTache));
     cheminCritique(projet, 11, 10, test);
 
     
