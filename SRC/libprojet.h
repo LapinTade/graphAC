@@ -44,5 +44,6 @@ int 	dureePlusCourte(Projet projet, int debut, int fin);
 int 	dureePlusGrande(Projet projet, int debut, int fin);
 int 	dureeProjetPlusCourt(Projet projet, int debut, int fin);
 int 	dureeProjetPlusLong(Projet projet, int debut, int fin);
+int 	cheminCritique(Projet projet, int debut, int fin, int* chemin);
 
 //#endif

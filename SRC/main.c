@@ -203,9 +203,10 @@ int main() {
     int max2 = dureeProjetPlusLong(projet,11,10);
     printf("Date au plus long: %d", max2);
     
-    //int * test = (int*) malloc(sizeof(int));
-    //int max3 = dureeProjetPlusLong(projet, 11, 10);
+    ListeTaches = (ListeTaches) malloc(sizeof(TypTache));
+    cheminCritique(projet, 11, 10, test);
 
+    
     
     return 0;
 }
