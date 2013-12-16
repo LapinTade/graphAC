@@ -67,7 +67,7 @@ ListeTaches ajouterTacheAfter(ListeTaches *liste, int tache, int duree){
 			element = element->tacheSuivant;
 		}	
 		element2->tacheSuivant = element->tacheSuivant;
-		element->tacheSuivant=element2;
+		element->tacheSuivant = element2;
 		element2->tache = tache;
 		element2->dureeTache = duree;
 	}
@@ -106,7 +106,7 @@ ListeTaches supprimerTache(ListeTaches liste, int tache){
 		if (liste->tache == tache) {
 			todelete = liste;
 			if (flag == 1) {			/* On est pas sur la tete de liste */
-				precedent->tacheSuivant=liste->tacheSuivant;
+				precedent->tacheSuivant = liste->tacheSuivant;
 			}
 			else {
 				prem = liste->tacheSuivant;
