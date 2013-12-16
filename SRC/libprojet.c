@@ -64,21 +64,21 @@ Projet creation(int nbTachesMax){
 *
 */
 Projet lecture(char *urlFichierSource){
-	FILE	*fichier;			/* Fichier de lecture */
-	Projet 	projet;				/* Projet correspondant au fichier lu */
-	int 	i;					/* Iterateur */
-	char 	line[128];			/* Ligne lu dans le fichier */
-	int 	nbLine;				/* Nombre de ligne */
-	int 	tmp;				/* Entier temporaire */
+	FILE	*fichier;		/* Fichier de lecture */
+	Projet 	projet;			/* Projet correspondant au fichier lu */
+	int 	i;			/* Iterateur */
+	char 	line[128];		/* Ligne lu dans le fichier */
+	int 	nbLine;			/* Nombre de ligne */
+	int 	tmp;			/* Entier temporaire */
 	int 	nbTachesMax;		/* Nombre de tache max du projet */
 	int 	currentTache;		/* Tache courant */
 	int 	currentTacheProjet=0;	/* TacheProjet courant */
 	int 	currentDureeTache; 	/* Duree du tache courant */
-	char 	*tok;				/* Tokenisation de la ligne lu */
+	char 	*tok;			/* Tokenisation de la ligne lu */
 	char 	*firstDelim;		/* Premier separateur */
-	char 	*secDelim;			/* Seconds separateurs */
-	int		firstLine;
-	int duree;
+	char 	*secDelim;		/* Seconds separateurs */
+	int	firstLine;		/* Booleen qui vaut true si on est a la premiere ligne */
+	int 	duree;			/* Entier duree */
 	firstLine=1;
 	tmp = 1;
 	firstDelim=", \n -";
@@ -181,7 +181,7 @@ void creationTacheProjet(Projet projet, int tache){
 *
 */
 void insertionTacheProjet(TypProjet *projet, ListeTaches tache){
-	int i = 0;
+	int i = 0;	/* Entier iterateur */
 	
 	while (projet->tacheProjet[i]->tache != -1) {
 		i++;
@@ -313,11 +313,11 @@ void sauvegarde(Projet projet, char *urlFichierDest){
 *
 */
 char* del(char str[], char ch){
-	int i;
-	int j=0;
-	int size;
-	char ch1;
-	char str1[10];
+	int i;		/*  iterateur */
+	int j=0;	/* iterateur */
+	int size;	/* Entier taille de la chaine */ 
+	char ch1;	/* char temporaire */
+	char str1[10];	/* chaine de caractere resultat */
 
 	size=strlen(str);
 
@@ -346,15 +346,15 @@ char* del(char str[], char ch){
 *
 */
 void creationInitFin(TypProjet *projet){
-	int i=0;
-	int tabOccur[projet->nbMaxTaches];
-	creationTacheProjet(projet, projet->nbMaxTaches);
-	int tacheInit = projet->nbMaxTaches;
+	int i=0;						/* iterateur */
+	int tabOccur[projet->nbMaxTaches];			/* tableau d'occurence */
+	creationTacheProjet(projet, projet->nbMaxTaches);	
+	int tacheInit = projet->nbMaxTaches;			/* tache initial */
 	projet->nbMaxTaches++;
 	creationTacheProjet(projet, projet->nbMaxTaches);
-	int tacheFin = projet->nbMaxTaches;
+	int tacheFin = projet->nbMaxTaches;			/* tache final */
 	projet->nbMaxTaches++;
-	ListeTaches element;
+	ListeTaches element;					/* maillon de liste pour le parcours */
 	element = (ListeTaches) malloc(sizeof(TypTache));
 	
 	//Creer tache pour init et fin avec intitule
@@ -399,9 +399,9 @@ void creationInitFin(TypProjet *projet){
 *
 */
 void recupDuree(Projet projet){
-	int i;
-	int tabDuree[projet->nbMaxTaches];
-	ListeTaches element;
+	int i;					/* iterateur */
+	int tabDuree[projet->nbMaxTaches];	/* tableau de duree */
+	ListeTaches element;			/* maillon de liste pour le parcours */
 	
 	i = 0;
 	element = (ListeTaches) malloc(sizeof(TypTache));
@@ -440,11 +440,11 @@ void recupDuree(Projet projet){
 *
 */
 int dureePlusCourte(Projet projet, int debut, int fin) {
-	ListeTaches tacheCourante;
-	ListeTaches element;
-	int min;
-	int tacheCouranteDuree;
-	int elementMin;
+	ListeTaches tacheCourante;	/* maillon de liste tache courante */
+	ListeTaches element;		/* maillon de liste pour le parcours */
+	int min;			/* entier minimum temporaire */
+	int tacheCouranteDuree;		/* Entier la duree de la tache courante */
+	int elementMin;			/* le numero de l'element min */
 	
 	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
 	
@@ -483,11 +483,11 @@ int dureePlusCourte(Projet projet, int debut, int fin) {
 *
 */
 int dureePlusGrande(Projet projet, int debut, int fin) {
-	ListeTaches tacheCourante;
-	ListeTaches element;
-	int max;
-	int tacheCouranteDuree;
-	int elementMax;
+	ListeTaches tacheCourante;	/* maillon de liste tache courante */
+	ListeTaches element;		/* maillon de liste pour le parcours */
+	int max;			/* entier maximum temporaire */
+	int tacheCouranteDuree;		/* Entier la duree de la tache courante */
+	int elementMax;			/* le numero de l'element max */
 	
 	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
 	
@@ -524,11 +524,11 @@ int dureePlusGrande(Projet projet, int debut, int fin) {
 *
 */
 int dureeProjetPlusCourt(Projet projet, int debut, int fin) {
-	ListeTaches tacheCourante;
-	ListeTaches element;
-	int max;
-	int elementMax;
-	int critique;
+	ListeTaches tacheCourante;	/* maillon de liste tache courante */
+	ListeTaches element;		/* maillon de liste pour le parcours */
+	int max;			/* entier maximum temporaire */
+	int elementMax;			/* le numero de l'element max */
+	int critique;			/* le numero de l'element du chemin critique */
 	
 	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
 	
@@ -565,11 +565,11 @@ int dureeProjetPlusCourt(Projet projet, int debut, int fin) {
 *
 */
 int dureeProjetPlusLong(Projet projet, int debut, int fin) {
-	ListeTaches 	tacheCourante;
-	ListeTaches 	element;
-	int 		max;
-	int 		elementMax;
-	int 		critique;
+	ListeTaches 	tacheCourante;	/* maillon de liste tache courante */
+	ListeTaches 	element;	/* maillon de liste pour le parcours */
+	int 		max;		/* le numero de l'element max */
+	int 		elementMax;	/* le numero de l'element max */
+	int 		critique;	/* le numero de l'element du chemin critique */
 	
 	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
 	
@@ -607,12 +607,12 @@ int dureeProjetPlusLong(Projet projet, int debut, int fin) {
 *
 */
 int cheminCritique(Projet projet, int debut, int fin, ListeTaches chemin) {
-	ListeTaches 	tacheCourante;
-	ListeTaches 	element;
-	ListeTache	tmp;
-	int 		max;
-	int 		tacheCouranteDuree;
-	int 		elementMax;
+	ListeTaches 	tacheCourante;		/* maillon de liste tache courante */
+	ListeTaches 	element;		/* maillon de liste pour le parcours */
+	ListeTache	tmp;			/* maillon de liste temporaire */
+	int 		max;			/* le numero de l'element max */
+	int 		tacheCouranteDuree;	/* Entier la duree de la tache courante */
+	int 		elementMax;		/* le numero de l'element max */
 	
 	
 	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
@@ -656,8 +656,8 @@ int cheminCritique(Projet projet, int debut, int fin, ListeTaches chemin) {
 *
 */
 int sommeDuree(Projet projet){
-	int res;
-	int i;
+	int res;	/*Entier resultat de la somme*/
+	int i;		/* iterateur */
 	
 	res = 0;
 	
@@ -679,14 +679,14 @@ int sommeDuree(Projet projet){
 *
 */
 int cheminCritiqueLong(Projet projet, int debut, int fin) {
-	ListeTaches 	tacheCourante;
-	ListeTaches 	element;
-	ListeTaches 	tmp;
-	int 		max;
-	int 		tacheCouranteDuree;
-	int 		elementMax;
-	int 		loop;
-	int 		critique;
+	ListeTaches 	tacheCourante;		/* maillon de liste tache courante */
+	ListeTaches 	element;		/* maillon de liste pour le parcours */
+	ListeTaches 	tmp;			/* maillon de liste temporaire */
+	int 		max;			/* Entier maximum temporaire */
+	int 		tacheCouranteDuree;	/* Entier correspondant a la tache courante */
+	int 		elementMax;		/* Entier element Maximum */
+	int 		loop;			/* Entier pour la boucle while */ 
+	int 		critique;		/* Entier correspondant a la tache du chemin critique */ 
 	
 	tmp = 		(ListeTaches) malloc(sizeof(TypTache));
 	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
@@ -747,15 +747,15 @@ int cheminCritiqueLong(Projet projet, int debut, int fin) {
 *
 */
 int cheminCritiqueCourt(Projet projet, int debut, int fin) {
-	ListeTaches 	tacheCourante;
-	ListeTaches 	element;
-	ListeTaches 	tmp;
+	ListeTaches 	tacheCourante;		/* maillon de liste tache courante */
+	ListeTaches 	element;		/* maillon de liste pour le parcours */
+	ListeTaches 	tmp;			/* maillon de liste temporaire */
 	ListeTaches 	chemin;
-	int 		max;
-	int 		tacheCouranteDuree;
-	int 		elementMax;
-	int 		loop;
-	int 		critique;
+	int 		max;			/* Entier maximum temporaire */
+	int 		tacheCouranteDuree;	/* Entier correspondant a la tache courante */
+	int 		elementMax;		/* Entier element Maximum */
+	int 		loop;			/* Entier pour la boucle while */ 
+	int 		critique;		/* Entier correspondant a la tache du chemin critique */ 
 	
 	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
 	chemin = 	(ListeTaches) malloc(projet->nbMaxTaches * sizeof(TypTache));
