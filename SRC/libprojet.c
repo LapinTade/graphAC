@@ -387,34 +387,58 @@ void creationInitFin(TypProjet *projet){
 	
 }
 
+
+/*
+* Fonction : 	recupDuree
+*
+* Parametres : 	TypProjet *projet
+*
+* Retour : 	rien
+*
+* Description : Recupere les durees de chaques listes
+*
+*/
 void recupDuree(Projet projet){
-	int i=0;
+	int i;
 	int tabDuree[projet->nbMaxTaches];
 	ListeTaches element;
+	
+	i = 0;
 	element = (ListeTaches) malloc(sizeof(TypTache));
 	for(i = 0; i < projet->nbMaxTaches; i++){
 		tabDuree[i]=0;
 	}
 	
 	for(i = 0; i < projet->nbMaxTaches; i++){
-		element= projet->tacheProjet[i];
+		element = projet->tacheProjet[i];
 		while(element->tache != -1){
 			if(element->dureeTache > 0){
-				tabDuree[element->tache]=element->dureeTache;
+				tabDuree[element->tache] = element->dureeTache;
 			}
 			element=element->tacheSuivant;
 		}
 	}
 	for(i = 0; i < projet->nbMaxTaches; i++){
-		element= projet->tacheProjet[i];
+		element = projet->tacheProjet[i];
 		while(element->tache != -1){
-			element->dureeTache=tabDuree[element->tache];
-			element=element->tacheSuivant;
+			element->dureeTache = tabDuree[element->tache];
+			element = element->tacheSuivant;
 		}
 	}
 
 }
 
+
+/*
+* Fonction : 	dureePlusCourte
+*
+* Parametres : 	TypProjet *projet, int debut, int fin 
+*
+* Retour : 	int
+*
+* Description : retourne la duree minimum pour accomplir la tache fin
+*
+*/
 int dureePlusCourte(Projet projet, int debut, int fin) {
 	ListeTaches tacheCourante;
 	ListeTaches element;
@@ -447,6 +471,17 @@ int dureePlusCourte(Projet projet, int debut, int fin) {
 	}
 }
 
+
+/*
+* Fonction : 	dureePlusGrande
+*
+* Parametres : 	TypProjet *projet, int debut, int fin 
+*
+* Retour : 	int
+*
+* Description : retourne la duree maximum pour accomplir la tache fin
+*
+*/
 int dureePlusGrande(Projet projet, int debut, int fin) {
 	ListeTaches tacheCourante;
 	ListeTaches element;
@@ -478,6 +513,16 @@ int dureePlusGrande(Projet projet, int debut, int fin) {
 }
 
 
+/*
+* Fonction : 	dureeProjetPlusCourt
+*
+* Parametres : 	TypProjet *projet, int debut, int fin 
+*
+* Retour : 	int
+*
+* Description : retourne la valeur minimum que mettra le projet
+*
+*/
 int dureeProjetPlusCourt(Projet projet, int debut, int fin) {
 	ListeTaches tacheCourante;
 	ListeTaches element;
@@ -509,12 +554,22 @@ int dureeProjetPlusCourt(Projet projet, int debut, int fin) {
 
 
 
+/*
+* Fonction : 	dureeProjetPlusCourt
+*
+* Parametres : 	TypProjet *projet, int debut, int fin 
+*
+* Retour : 	int
+*
+* Description : retourne la valeur maximum que mettra le projet
+*
+*/
 int dureeProjetPlusLong(Projet projet, int debut, int fin) {
-	ListeTaches tacheCourante;
-	ListeTaches element;
-	int max;
-	int elementMax;
-	int critique;
+	ListeTaches 	tacheCourante;
+	ListeTaches 	element;
+	int 		max;
+	int 		elementMax;
+	int 		critique;
 	
 	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
 	
@@ -540,19 +595,31 @@ int dureeProjetPlusLong(Projet projet, int debut, int fin) {
 
 
 
+
+/*
+* Fonction : 	dureeProjetPlusCourt
+*
+* Parametres : 	TypProjet *projet, int debut, int fin 
+*
+* Retour : 	int
+*
+* Description : affiche le chemin critique
+*
+*/
 int cheminCritique(Projet projet, int debut, int fin, ListeTaches chemin) {
-	ListeTaches tacheCourante;
-	ListeTaches element;
-	ListeTaches tmp;
-	int max;
-	int tacheCouranteDuree;
-	int elementMax;
+	ListeTaches 	tacheCourante;
+	ListeTaches 	element;
+	ListeTache	tmp;
+	int 		max;
+	int 		tacheCouranteDuree;
+	int 		elementMax;
+	
 	
 	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
 	
-	tacheCourante = projet->tacheProjet[fin];
-	tacheCouranteDuree = tacheCourante->dureeTache;
-	element = tacheCourante;
+	tacheCourante = 	projet->tacheProjet[fin];
+	tacheCouranteDuree = 	tacheCourante->dureeTache;
+	element = 		tacheCourante;
 	
 	max = -1;
 	
@@ -576,36 +643,64 @@ int cheminCritique(Projet projet, int debut, int fin, ListeTaches chemin) {
 		return max + tacheCouranteDuree;
 	}
 }
+
+
+/*
+* Fonction : 	sommeDuree
+*
+* Parametres : 	TypProjet *projet
+*
+* Retour : 	int
+*
+* Description : somme des duree de tout le projet
+*
+*/
 int sommeDuree(Projet projet){
-	int res=0;
+	int res;
 	int i;
+	
+	res = 0;
+	
 	for(i=0;i<projet->nbMaxTaches; i++){
 		res=res+projet->tacheProjet[i]->dureeTache;
 	}
 	return res;
 }
+
+
+/*
+* Fonction : 	cheminCritiqueLong
+*
+* Parametres : 	TypProjet *projet
+*
+* Retour : 	int
+*
+* Description :	affiche la duree la plus longue pour chemin critique
+*
+*/
 int cheminCritiqueLong(Projet projet, int debut, int fin) {
-	ListeTaches tacheCourante;
-	ListeTaches element;
-	ListeTaches tmp = (ListeTaches) malloc(sizeof(TypTache));
-	int max;
-	int tacheCouranteDuree;
-	int elementMax;
-	int loop;
-	int critique;
+	ListeTaches 	tacheCourante;
+	ListeTaches 	element;
+	ListeTaches 	tmp;
+	int 		max;
+	int 		tacheCouranteDuree;
+	int 		elementMax;
+	int 		loop;
+	int 		critique;
 	
+	tmp = 		(ListeTaches) malloc(sizeof(TypTache));
 	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
 	
-	tacheCourante = projet->tacheProjet[fin];
-	tacheCouranteDuree = tacheCourante->dureeTache;
-	element = tacheCourante;
+	tacheCourante 	 	projet->tacheProjet[fin];
+	tacheCouranteDuree = 	tacheCourante->dureeTache;
+	element = 		tacheCourante;
 	
-	critique = fin;
-	max = -1;
-	loop = 1;
+	critique = 	fin;
+	max = 		-1;
+	loop = 		1;
 	
 	tacheCourante = projet->tacheProjet[critique];
-	element = tacheCourante;
+	element = 	tacheCourante;
 
 	printf("[%d]", projet->nbMaxTaches-1);
 	printf(" <= [%d]", fin);
@@ -640,21 +735,32 @@ int cheminCritiqueLong(Projet projet, int debut, int fin) {
 	return 0;
 }
 
+
+/*
+* Fonction : 	cheminCritiqueCourt
+*
+* Parametres : 	TypProjet *projet
+*
+* Retour : 	int
+*
+* Description :	affiche la duree la plus courte pour chemin critique
+*
+*/
 int cheminCritiqueCourt(Projet projet, int debut, int fin) {
-	ListeTaches tacheCourante;
-	ListeTaches element;
-	ListeTaches tmp;
-	ListeTaches chemin;
-	int max;
-	int tacheCouranteDuree;
-	int elementMax;
-	int loop;
-	int critique;
+	ListeTaches 	tacheCourante;
+	ListeTaches 	element;
+	ListeTaches 	tmp;
+	ListeTaches 	chemin;
+	int 		max;
+	int 		tacheCouranteDuree;
+	int 		elementMax;
+	int 		loop;
+	int 		critique;
 	
 	tacheCourante = (ListeTaches) malloc(sizeof(TypTache));
-	chemin = (ListeTaches) malloc(projet->nbMaxTaches * sizeof(TypTache));
+	chemin = 	(ListeTaches) malloc(projet->nbMaxTaches * sizeof(TypTache));
 	
-	critique = fin;
+	critique = 	fin;
 	loop = 1;
 	
 	tacheCourante = projet->tacheProjet[critique];
